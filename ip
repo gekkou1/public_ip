@@ -1,0 +1,23 @@
+#!/bin/bash
+##						##
+#	Script que te muestra tu ip publica	 #
+##						##
+IPNEW=.tmp/ip
+IPREG=.tmp/ip.reg
+TEMPORAL=.tmp
+if [[ -e $TEMPORAL ]];then
+	: #Do nothing (or return 0)	
+else
+	echo "Creando carpeta ./tmp bajo el actual directorio, donde se guardara los archivos de registro de las ip's"
+	$(mkdir .tmp)
+fi
+	$(curl -s https://canyouseeme.org | grep 'id="ip"' | cut -b 55-68 >$IPNEW) #Extrae la ip publica y la guarda en $IPNEW
+	$(cat $IPNEW >> $IPREG | date >> $IPREG) #Guarda la ip en el registro y la fecha
+echo
+echo "Su ip publica es: " 
+echo 	"$(cat $IPNEW)"
+echo
+echo
+echo "El registro de ip's: "
+echo 
+echo	"$(cat $IPREG)"
